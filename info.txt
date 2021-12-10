@@ -1,0 +1,16 @@
+Python kan lese disse filene:
+    PNG
+    JPG
+    CSV
+    XLSX
+    ZIP
+    TXT
+    JSON
+    XML
+    HTML
+    HDF
+    PDF
+    DOCX
+    MP3
+    MP4
+    SQL
