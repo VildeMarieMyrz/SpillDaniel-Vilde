@@ -1,0 +1,10 @@
+programmering:
+    - Lagre informasjom om verdenen (blokker)
+    - Kamera som følger etter
+
+Design
+    - Karakter
+    - Bakgrunn
+    - Blokker
+    - Logo
+    

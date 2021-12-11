@@ -16,7 +16,7 @@ player_size = (80,80)
 block_size = 80
 
 screen = pygame.display.set_mode((sys.screen_size[0],sys.screen_size[1]))
-pygame.display.set_caption('Spill')
+pygame.display.set_caption('Lost in Space')
 player = Player(sys.screen_size,player_size)
 clock = pygame.time.Clock()
 
