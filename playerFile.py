@@ -1,30 +1,51 @@
 import pygame
 
 class Player:
-    def __init__(self, screenSize, charSize):
+    def __init__(self, screen_size, char_size):
         img = pygame.image.load("game_assets/character.png")
-
-        self.img = pygame.transform.scale(img, (charSize))
+        self.img = pygame.transform.scale(img, (char_size))
+        self.rect = self.img.get_rect(center=(screen_size[0]/2,screen_size[1] * 0.8))
 
         # Movement
-            # position
-        self.x = screenSize[0]/2 - charSize[0]/2
-        self.y = screenSize[1] - charSize[1]
-        self.pos = (self.x,self.y)
-            # speed
-        self.xSpeed = 0
-        self.ySpeed = 0
+        self.x_speed = 0
+        self.y_speed = 0
 
     def walk(self,speed):
-        self.xSpeed += speed
+        self.x_speed += speed
 
     def jump(self,speed):
-        self.ySpeed = -speed
+        self.y_speed = -speed
 
     def fall(self, gravity):
-        self.ySpeed += gravity
+        self.y_speed += gravity
 
-    def move(self):
-        self.x += self.xSpeed
-        self.y += self.ySpeed
-        self.pos = (self.x,self.y)
+    def move(self,rects):
+
+        # X-movement and collisions
+        self.rect.x += self.x_speed
+        hit_list = self.collision_test(rects)   
+        for rect in hit_list:
+            if self.x_speed > 0:
+                self.rect.right = rect.left
+            elif self.x_speed < 0:   
+                self.rect.left = rect.right
+
+        # Y-movement and collisions
+        self.rect.y += self.y_speed
+        hit_list = self.collision_test(rects)
+        for rect in hit_list:
+            if self.y_speed > 0:
+                self.rect.bottom = rect.top
+                self.y_speed = 0
+
+            elif self.y_speed < 0:   
+                self.rect.top = rect.bottom
+                self.y_speed = 0
+                
+
+    def collision_test(self, rects):
+        hit_list = []
+        for rect in rects:
+            if self.rect.colliderect(rect):
+                hit_list.append(rect)
+        return hit_list

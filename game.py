@@ -1,4 +1,5 @@
 import pygame
+from blocks import Block
 from systemDataFile import System
 from playerFile import Player
 
@@ -12,12 +13,26 @@ sys = System()
 FPS = 60
 gravity = 1
 player_size = (80,80)
-wolrd_ground = sys.screenSize[1]
+block_size = 80
 
-screen = pygame.display.set_mode((sys.screenSize[0],sys.screenSize[1]))
+screen = pygame.display.set_mode((sys.screen_size[0],sys.screen_size[1]))
 pygame.display.set_caption('Spill')
-player = Player(sys.screenSize,player_size)
+player = Player(sys.screen_size,player_size)
 clock = pygame.time.Clock()
+
+# temp blocks
+blocks = []
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2,sys.screen_size[1]-block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2-block_size,sys.screen_size[1]-block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2+block_size,sys.screen_size[1]-block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2+2*block_size,sys.screen_size[1]-2*block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2-2*block_size,sys.screen_size[1]-2*block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2,sys.screen_size[1]-5*block_size))
+blocks.append(Block(sys.screen_size,block_size,sys.screen_size[0]/2+block_size,sys.screen_size[1]-5*block_size))
+
+rects = []
+for block in blocks:
+    rects.append(block.img.get_rect(topleft=block.pos))
 
 # Colors    
 background_colour = (234, 212, 252)
@@ -34,7 +49,7 @@ while running:
                 player.walk(10)
             if event.key == pygame.K_LEFT:
                 player.walk(-10)
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_UP:
                 player.jump(18)
 
         if event.type == pygame.KEYUP:
@@ -45,20 +60,20 @@ while running:
 
     
     # Movement
-    player.move()
+    player.move(rects)
 
     # Physics
     player.fall(gravity)
 
-        # Ground
-    if player.y > wolrd_ground - player_size[1]:
-        player.y =  wolrd_ground - player_size[1]
-        player.ySpeed = 0
+        # Collisions
 
     # Display
     screen.fill(background_colour)
 
-    screen.blit(player.img,(player.pos))
+    screen.blit(player.img,(player.rect.x,player.rect.y))
+
+    for block in blocks:
+        screen.blit(block.img,block.pos)
 
     pygame.display.update()
     clock.tick(FPS)
