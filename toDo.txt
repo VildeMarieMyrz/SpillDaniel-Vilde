@@ -1,8 +1,7 @@
 programmering:
     - Lagre informasjom om verdenen (blokker)
-    - Kamera som følger etter
 
-Design
+Designs
     - Karakter
     - Bakgrunn
     - Blokker
