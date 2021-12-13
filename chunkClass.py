@@ -18,3 +18,7 @@ class Chunk:
                 elif grid[x][y] == 1:
                     block_row.append(Dirt(block_size, x*block_size, y*block_size))
             self.grid.append(block_row)
+
+    def add(self,block, x ,y):
+        print(x, y)
+        self.grid[x][y] = block

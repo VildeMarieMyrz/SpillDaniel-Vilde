@@ -13,6 +13,7 @@ gravity = 1
 player_size = (80,80)
 block_size = 80
 chunk_size = 16
+chunk_height = 64
 
 screen = pygame.display.set_mode((sys.screen_size[0],sys.screen_size[1]))
 pygame.display.set_caption('Lost in Space')
@@ -54,7 +55,7 @@ planet_data = [
     [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
-planet = Planet(planet_data, chunk_size, block_size)
+planet = Planet(chunk_size, chunk_height, block_size)
 
 # Colors    
 background_colour = (234, 212, 252)
@@ -85,6 +86,12 @@ while running:
                 cam.move_up(False)
             if event.key == pygame.K_DOWN:
                 cam.move_down(False)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                planet.add_block(1, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+            if event.button == 2:
+                planet.add_block(1, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
 
     cam.move()
 
