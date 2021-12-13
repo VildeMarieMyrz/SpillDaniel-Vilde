@@ -1,4 +1,5 @@
 import pygame
+from blockClass import Block
 
 from chunkClass import Chunk
 
@@ -11,6 +12,8 @@ class Planet:
     def __init__ (self, grid, chunk_size, block_size):
         
         self.chunks = []
+        self.chunk_size = chunk_size
+        self.block_size = block_size
 
         for chunk_pos in range(len(grid[0])//chunk_size):
             chunk_grid = []
@@ -20,3 +23,7 @@ class Planet:
                     chunk_row.append(block)
                 chunk_grid.append(chunk_row)
             self.chunks.append(Chunk(chunk_pos, chunk_grid, chunk_size, block_size))
+        
+    def add_block(self, pos, type):
+
+        chunk = (pos//self.block_size)/self.chunk_size
