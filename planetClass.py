@@ -13,7 +13,7 @@ class Planet:
         
     
     def add_block(self, block, x , y):
-        chunk_pos = (x//self.block_size)/self.chunk_size
+        chunk_pos = (x//self.block_size)//self.chunk_size
         chunk_index = None
 
         for e in range(len(self.chunks)):
@@ -23,14 +23,9 @@ class Planet:
         if chunk_index == None:
             self.chunks.append(self.make_chunk(chunk_pos))
             chunk_index = len(self.chunks)-1
-        self.chunks[chunk_index].add(block, int((x//self.block_size) - self.chunk_size * chunk_pos), y//self.block_size)
+        self.chunks[chunk_index].add(block, (x//self.block_size) - self.chunk_size * chunk_pos, y//self.block_size)
 
 
     def make_chunk(self, chunk_pos):
-        chunk_grid = []
-        for e in range(self.chunk_size):
-            chunk_row = []
-            for i in range(self.chunk_size):
-                chunk_row.append(0)
-            chunk_grid.append(chunk_row)
-        return Chunk(chunk_pos, chunk_grid, self.chunk_size, self.block_size)
+        
+        return Chunk(chunk_pos, self.chunk_size, self.block_size)

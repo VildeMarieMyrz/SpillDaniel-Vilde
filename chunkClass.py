@@ -4,21 +4,21 @@ from dirtBlockClass import Dirt
 
 class Chunk:
 
-    def __init__ (self, pos, grid, chunk_size, block_size):
+    def __init__ (self, chunk_pos, chunk_size, block_size):
 
-        self.pos = pos
+        self.block_size = block_size
+        self.pos = chunk_pos
         self.size = chunk_size
         self.grid = []
 
         for x in range(self.size):
-            block_row = []
+            chunk_row = []
             for y in range(self.size):
-                if grid[x][y] == 0:
-                    block_row.append(Air(block_size, x*block_size, y*block_size))
-                elif grid[x][y] == 1:
-                    block_row.append(Dirt(block_size, x*block_size, y*block_size))
-            self.grid.append(block_row)
+                chunk_row.append(Air(block_size, x*block_size, y*block_size))
+            self.grid.append(chunk_row)
 
     def add(self,block, x ,y):
-        print(x, y)
-        self.grid[x][y] = block
+        if block == 0:
+            self.grid[x][y] = (Air(self.block_size, x*self.block_size, y*self.block_size))
+        if block == 1:
+            self.grid[x][y] = (Dirt(self.block_size, x*self.block_size, y*self.block_size))
