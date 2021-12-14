@@ -1,12 +1,15 @@
-import pygame
+from typing import Text
+import pygame, sys
 from cameraClass import Camera
 from planetClass import Planet
 from systemDataFile import System
+from savePlanet import save
 
 
 # System Setup
 pygame.init()
-sys = System()
+system = System()
+FPS = 60
 
 # Game Setup
 gravity = 1
@@ -14,22 +17,24 @@ player_size = (80,80)
 block_size = 80
 chunk_size = 16
 chunk_height = 64
+clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((sys.screen_size[0],sys.screen_size[1]))
+screen = pygame.display.set_mode((system.screen_size[0],system.screen_size[1]))
 pygame.display.set_caption('Lost in Space')
 cam = Camera()
 planet = Planet(chunk_size, chunk_height, block_size)
 
+
 # Colors    
 background_colour = (234, 212, 252)
 
-running = True
-while running:
+while True:
 
     # Event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False 
+            pygame.quit()
+            system.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 cam.move_right(True)
@@ -39,6 +44,9 @@ while running:
                 cam.move_up(True)
             if event.key == pygame.K_DOWN:
                 cam.move_down(True)
+            if event.key == pygame.K_s:
+                save(planet)
+
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
@@ -69,3 +77,4 @@ while running:
                     screen.blit(block.img, (block.x + chunk.size * block_size * chunk.pos + cam.x, block.y + cam.y))
 
     pygame.display.update()
+    clock.tick(FPS)

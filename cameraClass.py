@@ -5,11 +5,12 @@ class Camera:
         self.x = x
         self.y = y
 
+        self.move_speed = 15
+
         self.right = False
         self.left = False
         self.up = False
         self.down= False
-
     def scroll(self, player_pos_x, player_pos_y):
         x_scroll = (player_pos_x + self.x - 900)/25
         self.x -= x_scroll
@@ -19,13 +20,13 @@ class Camera:
 
     def move(self):
         if self.right:
-            self.x -= 10
+            self.x -= self.move_speed
         if self.left:
-            self.x += 10
+            self.x += self.move_speed
         if self.up:
-            self.y += 10
+            self.y += self.move_speed
         if self.down:
-            self.y -= 10
+            self.y -= self.move_speed
 
     def move_right(self, state):
         self.right = state

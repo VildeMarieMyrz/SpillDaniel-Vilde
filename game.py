@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 from cameraClass import Camera
 from planetClass import Planet
 from systemDataFile import System
@@ -7,7 +7,7 @@ from playerClass import Player
 
 # System Setup
 pygame.init()
-sys = System()
+system = System()
 
 # Game Setup
 
@@ -17,9 +17,9 @@ player_size = (80,80)
 block_size = 80
 chunk_size = 16
 
-screen = pygame.display.set_mode((sys.screen_size[0],sys.screen_size[1]))
+screen = pygame.display.set_mode((system.screen_size[0],system.screen_size[1]))
 pygame.display.set_caption('Lost in Space')
-player = Player(sys.screen_size,player_size)
+player = Player(system.screen_size,player_size)
 clock = pygame.time.Clock()
 cam = Camera()
 
@@ -64,13 +64,12 @@ planet = Planet(planet_data, chunk_size, block_size)
 # Colors    
 background_colour = (234, 212, 252)
 
-running = True
-while running:
-
+while True:
     # Event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False 
+            pygame.quit()
+            sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.walk(10)

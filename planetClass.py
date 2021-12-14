@@ -29,3 +29,4 @@ class Planet:
     def make_chunk(self, chunk_pos):
         
         return Chunk(chunk_pos, self.chunk_size, self.block_size)
+        
