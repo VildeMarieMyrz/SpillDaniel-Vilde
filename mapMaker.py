@@ -1,6 +1,7 @@
 from typing import Text
 import pygame, sys
 from cameraClass import Camera
+from chunkLoaderClass import ChunkLoader
 from planetClass import Planet
 from systemDataFile import System
 from savePlanet import save
@@ -19,10 +20,11 @@ chunk_size = 16
 chunk_height = 64
 clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((system.screen_size[0],system.screen_size[1]))
+screen = pygame.display.set_mode((system.screen_width,system.screen_height))
 pygame.display.set_caption('Lost in Space')
 cam = Camera()
 planet = Planet(chunk_size, chunk_height, block_size)
+chunks = ChunkLoader(chunk_size, block_size)
 
 
 # Colors    
@@ -63,18 +65,37 @@ while True:
                 planet.add_block(1, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
             if event.button == 3:
                 planet.add_block(0, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
+    
     cam.move()
+
+    # Rendering
+    cam_centre = (cam.x//block_size//chunk_size + system.screen_width//2)
+    shloud_render = [cam_centre-1, cam_centre, cam_centre+1]
+
+        # Remove Chunks
+    for chunk in chunks.loaded_chunks:
+        if chunk not in shloud_render:
+            chunks.remove(chunk)
+
+        # Load Chunks
+    for chunk in (shloud_render):
+        if chunk < 0:
+            if chunk not in chunks.loaded_chunks:
+                chunks.load(planet.negative_chunks[(chunk*-1)-1],(chunk*-1))
+        else:
+            if chunk not in chunks.loaded_chunks:
+                chunks.load(planet.positive_chunks[chunk],chunk)
 
     # Display
         # Background
     screen.fill(background_colour)
 
         # Blocks
-    for chunk in planet.chunks:
-        for row in chunk.grid:
+    for chunk in chunks.chunks:
+        for row in chunk:
             for block in row:
                 if block.texture:
-                    screen.blit(block.img, (block.x + chunk.size * block_size * chunk.pos + cam.x, block.y + cam.y))
+                    screen.blit(block.img, (block.x + cam.x, block.y + cam.y))
 
     pygame.display.update()
     clock.tick(FPS)

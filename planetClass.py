@@ -1,32 +1,32 @@
 import pygame
-from blockClass import Block
-
-from chunkClass import Chunk
 
 class Planet:
 
-    def __init__ (self, chunk_size, chunk_height, block_size):
+    def __init__ (self, chunk_size, chunk_height, block_size, positive_chunks=[], negative_chunks=[]):
         self.chunk_height = chunk_height
-        self.chunks = []
+        self.positive_chunks = positive_chunks
+        self.negative_chunks = negative_chunks
         self.chunk_size = chunk_size
         self.block_size = block_size
         
     
     def add_block(self, block, x , y):
-        chunk_pos = (x//self.block_size)//self.chunk_size
-        chunk_index = None
+        chunk_pos = (x//self.block_size)/self.chunk_size
 
-        for e in range(len(self.chunks)):
-            if self.chunks[e].pos == chunk_pos:
-                chunk_index = e
+        if chunk_pos < 0:
+            while chunk_pos > len(self.negative_chunks):
+                self.positive_chunks.append(self.make_chunk)
+            self.negative_chunks[(x*-1)//chunk_pos//self.block_size,y//self.block_size] = block
+        else:
+            while chunk_pos >= len(self.positive_chunks):
+                self.positive_chunks.append(self.make_chunk)
+            self.positive_chunks[x//chunk_pos//self.block_size,y//self.block_size] = block
 
-        if chunk_index == None:
-            self.chunks.append(self.make_chunk(chunk_pos))
-            chunk_index = len(self.chunks)-1
-        self.chunks[chunk_index].add(block, (x//self.block_size) - self.chunk_size * chunk_pos, y//self.block_size)
-
-
-    def make_chunk(self, chunk_pos):
-        
-        return Chunk(chunk_pos, self.chunk_size, self.block_size)
-        
+    def make_chunk(self):
+        chunk = []
+        for e in range(self.chunk_size):
+            chunk_row = []
+            for i in range(self.chunk_size):
+                chunk_row.append(0)
+            chunk.append(chunk_row)
+        return chunk
