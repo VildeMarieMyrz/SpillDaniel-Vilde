@@ -1,5 +1,6 @@
 programmering:
-    - Lagre informasjom om verdenen (blokker)
+    - rydde opp i spagettikode
+    - forbedre savePlanet
 
 Designs
     - Karakter

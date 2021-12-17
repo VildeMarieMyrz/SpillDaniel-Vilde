@@ -14,11 +14,12 @@ def save(planet):
         # Event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    print("save map")
+                    chunks = [planet.positive_chunks, planet.negative_chunks]
+                    pickle.dump(chunks, open("planets/"+txt+".planet","wb"))
+
                     running = False
                 elif event.key == pygame.K_BACKSPACE:
                     txt = txt[:-1]

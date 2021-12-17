@@ -1,5 +1,5 @@
 from typing import Text
-import pygame, sys
+import pygame, sys, time
 from cameraClass import Camera
 from chunkLoaderClass import ChunkLoader
 from planetClass import Planet
@@ -63,25 +63,36 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 planet.add_block(1, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
+                chunks.add_block(1, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
             if event.button == 3:
                 planet.add_block(0, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
+                chunks.add_block(0, pygame.mouse.get_pos()[0] - cam.x, pygame.mouse.get_pos()[1] - cam.y)
     
     cam.move()
 
     # Rendering
-    cam_centre = (cam.x//block_size//chunk_size + system.screen_width//2)
+    cam_centre = (-1*(cam.x - system.screen_width//2)//block_size//chunk_size )
     shloud_render = [cam_centre-1, cam_centre, cam_centre+1]
 
-        # Remove Chunks
+        # Generate chunks if missing
+    for chunk in (shloud_render):
+        if chunk < 0:
+            if (chunk*-1) > len(planet.negative_chunks):
+                planet.make_chunk(chunk)
+        else:
+            if chunk >= len(planet.positive_chunks):
+                planet.make_chunk(chunk)
+
+        # Remove Chunks Not in Should Render
     for chunk in chunks.loaded_chunks:
         if chunk not in shloud_render:
             chunks.remove(chunk)
 
-        # Load Chunks
+        # Load Chunks in Should Render
     for chunk in (shloud_render):
         if chunk < 0:
             if chunk not in chunks.loaded_chunks:
-                chunks.load(planet.negative_chunks[(chunk*-1)-1],(chunk*-1))
+                chunks.load(planet.negative_chunks[(chunk*-1)-1],(chunk))
         else:
             if chunk not in chunks.loaded_chunks:
                 chunks.load(planet.positive_chunks[chunk],chunk)
