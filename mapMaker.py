@@ -47,7 +47,7 @@ while True:
             if event.key == pygame.K_DOWN:
                 cam.move_down(True)
             if event.key == pygame.K_s:
-                save(planet)
+                save(planet, screen, system.screen_width, system.screen_height)
 
 
         if event.type == pygame.KEYUP:
@@ -107,6 +107,8 @@ while True:
             for block in row:
                 if block.texture:
                     screen.blit(block.img, (block.x + cam.x, block.y + cam.y))
+
+        # Text boxes
 
     pygame.display.update()
     clock.tick(FPS)

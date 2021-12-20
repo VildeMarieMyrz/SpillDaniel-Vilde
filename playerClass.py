@@ -9,17 +9,21 @@ class Player:
         # Movement
         self.x_speed = 0
         self.y_speed = 0
+        self.can_jump = False
+
 
     def walk(self,speed):
         self.x_speed += speed
 
     def jump(self,speed):
-        self.y_speed = -speed
+        if self.can_jump:
+            self.y_speed = -speed
 
     def fall(self, gravity):
         self.y_speed += gravity
 
     def move(self,rects):
+        self.can_jump = False
 
         # X-movement and collisions
         self.rect.x += self.x_speed
@@ -37,6 +41,7 @@ class Player:
             if self.y_speed > 0:
                 self.rect.bottom = rect.top
                 self.y_speed = 0
+                self.can_jump = True
 
             elif self.y_speed < 0:   
                 self.rect.top = rect.bottom
