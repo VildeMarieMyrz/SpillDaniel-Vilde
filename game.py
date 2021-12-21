@@ -51,7 +51,9 @@ while True:
                 player.walk(-10)
             if event.key == pygame.K_UP:
                 player.jump(18)
-
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:
                 player.walk(-10)

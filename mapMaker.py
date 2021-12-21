@@ -20,11 +20,16 @@ chunk_size = 16
 chunk_height = 64
 clock = pygame.time.Clock()
 
+# Load images
+images = {
+    "dirt" : pygame.image.load("game_assets/block.png")
+    }
+
 screen = pygame.display.set_mode((system.screen_width,system.screen_height))
 pygame.display.set_caption('Lost in Space')
 cam = Camera()
 planet = Planet(chunk_size, chunk_height, block_size)
-chunks = ChunkLoader(chunk_size, block_size)
+chunks = ChunkLoader(chunk_size, block_size, images)
 
 
 # Colors    
@@ -48,7 +53,9 @@ while True:
                 cam.move_down(True)
             if event.key == pygame.K_s:
                 save(planet, screen, system.screen_width, system.screen_height)
-
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT:

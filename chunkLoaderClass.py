@@ -44,7 +44,7 @@ class ChunkLoader:
                 if block == 0:
                     self.chunks[e][x//self.block_size-chunk_pos*self.chunk_size][y//self.block_size] = Air(self.block_size, (x - x % self.block_size), (y - y % self.block_size))
                 elif block == 1:
-                    self.chunks[e][x//self.block_size-chunk_pos*self.chunk_size][y//self.block_size] = Dirt(self.block_size, (x - x % self.block_size), (y - y % self.block_size))
+                    self.chunks[e][x//self.block_size-chunk_pos*self.chunk_size][y//self.block_size] = Dirt(self.block_size, (x - x % self.block_size), (y - y % self.block_size), self.images.get("dirt"))
                 break
 
 
