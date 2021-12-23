@@ -17,7 +17,6 @@ gravity = 1
 player_size = (80,80)
 block_size = 80
 chunk_size = 16
-chunk_height = 64
 clock = pygame.time.Clock()
 
 # Load images
@@ -28,7 +27,7 @@ images = {
 screen = pygame.display.set_mode((system.screen_width,system.screen_height))
 pygame.display.set_caption('Lost in Space')
 cam = Camera()
-planet = Planet(chunk_size, chunk_height, block_size)
+planet = Planet(chunk_size, block_size)
 chunks = ChunkLoader(chunk_size, block_size, images)
 
 
@@ -41,7 +40,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            system.exit()
+            sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 cam.move_right(True)
@@ -78,17 +77,16 @@ while True:
     cam.move()
 
     # Rendering
-    cam_centre = (-1*(cam.x - system.screen_width//2)//block_size//chunk_size )
-    shloud_render = [cam_centre-1, cam_centre, cam_centre+1]
+    cam_x = (-1*(cam.x - system.screen_width//2)//block_size//chunk_size )
+    cam_y = (-1*(cam.y - system.screen_height//2)//block_size//chunk_size )
+    shloud_render = []
+    for x in range(3):
+        for y in range(3):
+            shloud_render.append((cam_x + x-1, cam_y + y-1))
 
         # Generate chunks if missing
-    for chunk in (shloud_render):
-        if chunk < 0:
-            if (chunk*-1) > len(planet.negative_chunks):
-                planet.make_chunk(chunk)
-        else:
-            if chunk >= len(planet.positive_chunks):
-                planet.make_chunk(chunk)
+    for chunk in shloud_render:
+        planet.make_chunk(chunk) # does not ad chunk if a chunk already exists in this position
 
         # Remove Chunks Not in Should Render
     for chunk in chunks.loaded_chunks:
@@ -97,12 +95,17 @@ while True:
 
         # Load Chunks in Should Render
     for chunk in (shloud_render):
-        if chunk < 0:
-            if chunk not in chunks.loaded_chunks:
-                chunks.load(planet.negative_chunks[(chunk*-1)-1],(chunk))
-        else:
-            if chunk not in chunks.loaded_chunks:
-                chunks.load(planet.positive_chunks[chunk],chunk)
+        if chunk not in chunks.loaded_chunks:
+            if chunk[0] < 0:
+                if chunk[1] < 0: 
+                    chunks.load(planet.negative_chunks[chunk[0]*-2-1][chunk[1]*-1-1],chunk)
+                else:
+                    chunks.load(planet.negative_chunks[chunk[0]*-2-2][chunk[1]],chunk)
+            else:
+                if chunk[1] < 0: 
+                    chunks.load(planet.positive_chunks[chunk[0]*2+1][chunk[1]*-1-1],chunk)
+                else:
+                    chunks.load(planet.positive_chunks[chunk[0]*2][chunk[1]],chunk)
 
     # Display
         # Background

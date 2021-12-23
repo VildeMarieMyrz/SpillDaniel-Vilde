@@ -17,7 +17,6 @@ gravity = 1
 player_size = (80,80)
 block_size = 80
 chunk_size = 16
-chunk_height = 64
 
 
 # Load images
@@ -30,7 +29,7 @@ pygame.display.set_caption('Lost in Space')
 player = Player(system.screen_size,player_size)
 clock = pygame.time.Clock()
 cam = Camera()
-planet = Planet(chunk_size, chunk_height, block_size, grid=pickle.load(open("planets/"+planet_name+".planet", "rb")))
+planet = Planet(chunk_size, block_size, grid=pickle.load(open("planets/"+planet_name+".planet", "rb")))
 chunks = ChunkLoader(chunk_size, block_size, images)
 
 
