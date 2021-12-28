@@ -25,7 +25,7 @@ class Planet:
                 self.positive_chunks[chunk_pos[0]*2+1][chunk_pos[1]*-1-1][x//self.block_size-chunk_pos[0]*self.chunk_size][y*-1//self.block_size+chunk_pos[1]*self.chunk_size] = block
             else:
                 self.positive_chunks[chunk_pos[0]*2][chunk_pos[1]][x//self.block_size-chunk_pos[0]*self.chunk_size][y//self.block_size-chunk_pos[1]*self.chunk_size] = block
-
+   
     # generates a blank chunk
     def new_chunk(self):
         chunk = []

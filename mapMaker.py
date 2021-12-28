@@ -77,24 +77,24 @@ while True:
     cam.move()
 
     # Rendering
-    cam_x = (-1*(cam.x - system.screen_width//2)//block_size//chunk_size )
-    cam_y = (-1*(cam.y - system.screen_height//2)//block_size//chunk_size )
-    shloud_render = []
+    cam_x = int(-1*(cam.x - system.screen_width//2)//block_size//chunk_size)
+    cam_y = int(-1*(cam.y - system.screen_height//2)//block_size//chunk_size)
+    should_render = []
     for x in range(3):
         for y in range(3):
-            shloud_render.append((cam_x + x-1, cam_y + y-1))
+            should_render.append((cam_x + x-1, cam_y + y-1))
 
         # Generate chunks if missing
-    for chunk in shloud_render:
+    for chunk in should_render:
         planet.make_chunk(chunk) # does not ad chunk if a chunk already exists in this position
 
         # Remove Chunks Not in Should Render
     for chunk in chunks.loaded_chunks:
-        if chunk not in shloud_render:
+        if chunk not in should_render:
             chunks.remove(chunk)
 
         # Load Chunks in Should Render
-    for chunk in (shloud_render):
+    for chunk in (should_render):
         if chunk not in chunks.loaded_chunks:
             if chunk[0] < 0:
                 if chunk[1] < 0: 

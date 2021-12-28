@@ -1,10 +1,10 @@
 programmering:
-    - rydde opp i spagettikode
-    - forbedre savePlanet
+    - laste chunks i ny tråd
+    - animasjon til player character
 
 Designs
-    - Karakter
     - Bakgrunn
     - Blokker
     - Logo
+
     
