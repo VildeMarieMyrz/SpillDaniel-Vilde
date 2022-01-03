@@ -1,9 +1,14 @@
 class Camera:
 
-    def __init__(self, x=0, y=0):
+    def __init__(self, width, height, player_size, x=0, y=0):
 
         self.x = x
         self.y = y
+
+        self.height = height
+        self.width = width
+        self.player_x = player_size[0]
+        self.player_y = player_size[1]
 
         self.move_speed = 15
 
@@ -11,11 +16,12 @@ class Camera:
         self.left = False
         self.up = False
         self.down= False
+
     def scroll(self, player_pos_x, player_pos_y):
-        x_scroll = (player_pos_x + self.x - 900)/25
+        x_scroll = (player_pos_x + self.x - self.width/2 + self.player_x/2)/25
         self.x -= x_scroll
         
-        y_scroll = (player_pos_y + self.y - 500)/10
+        y_scroll = (player_pos_y + self.y - self.height/2 + self.player_y/2)/10
         self.y -= y_scroll
 
     def move(self):

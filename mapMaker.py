@@ -26,7 +26,7 @@ images = {
 
 screen = pygame.display.set_mode((system.screen_width,system.screen_height))
 pygame.display.set_caption('Lost in Space')
-cam = Camera()
+cam = Camera(system.screen_width, system.screen_height, player_size)
 planet = Planet(chunk_size, block_size)
 chunks = ChunkLoader(chunk_size, block_size, images)
 

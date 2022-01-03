@@ -9,7 +9,7 @@ from chunkLoaderClass import ChunkLoader
 # System Setup
 pygame.init()
 system = System()
-planet_name = "test planet"
+planet_name = "jorden"
 
 # Game Setup
 FPS = 60
@@ -28,7 +28,7 @@ screen = pygame.display.set_mode((system.screen_size[0],system.screen_size[1]))
 pygame.display.set_caption('Lost in Space')
 player = Player(system.screen_size,player_size)
 clock = pygame.time.Clock()
-cam = Camera()
+cam = Camera(system.screen_width, system.screen_height, player_size)
 planet = Planet(chunk_size, block_size, grid=pickle.load(open("planets/"+planet_name+".planet", "rb")))
 chunks = ChunkLoader(chunk_size, block_size, images)
 
