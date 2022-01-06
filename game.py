@@ -9,7 +9,7 @@ from chunkLoaderClass import ChunkLoader
 # System Setup
 pygame.init()
 system = System()
-planet_name = "jorden"
+planet_name = "Wopsi"
 
 # Game Setup
 FPS = 60
